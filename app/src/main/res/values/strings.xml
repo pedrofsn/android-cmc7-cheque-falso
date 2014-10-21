@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">"CMC7 Cheque Falso "</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="insira_cmc7">Insira o CMC7</string>
+    <string name="cheque_verdadeiro_verdadeiro">Cheque possivelmente verdadeiro!</string>
+    <string name="cheque_verdadeiro_falso">Cheque possivelmente falsificado!</string>
 
 </resources>
