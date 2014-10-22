@@ -23,6 +23,7 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
     private Button buttonOk;
     private LinearLayout linearLayout;
     private ImageView imageView;
+    private ImageView imageViewValidadeCheque;
     private TextView textView;
 
     private Validador validador;
@@ -45,6 +46,7 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
         buttonOk = (Button) view.findViewById(R.id.buttonOk);
         linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout);
         imageView = (ImageView) view.findViewById(R.id.imageView);
+        imageViewValidadeCheque = (ImageView) view.findViewById(R.id.imageViewValidadeCheque);
         textView = (TextView) view.findViewById(R.id.textView);
     }
 
@@ -52,6 +54,7 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
     public void onStart() {
         super.onStart();
         validador = new Validador(getActivity());
+        imageView.setOnClickListener(this);
         editTextCmc7.addTextChangedListener(this);
         buttonOk.setOnClickListener(this);
     }
@@ -60,30 +63,39 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonOk:
-                if (cmc7anterior == cmc7)
+                if (cmc7anterior == cmc7) {
                     linearLayout.setVisibility(View.GONE);
+                }
 
                 cmc7 = editTextCmc7.getText().toString();
                 setResultadoValidacaoCheque(validador.validarCMC7(cmc7));
                 break;
+
+            case R.id.imageView:
+
+                break;
         }
     }
 
-    private void setResultadoValidacaoCheque(boolean caso) {
-        linearLayout.setVisibility(View.VISIBLE);
-        int drawable;
-        int string;
+    private void setResultadoValidacaoCheque(Boolean caso) {
+        int drawable = 0;
+        int string = 0;
 
-        if (caso) {
-            drawable = R.drawable.ic_positivo;
-            string = R.string.cheque_possivelmente_verdadeiro;
-        } else {
-            drawable = R.drawable.ic_negativo;
-            string = R.string.cheque_possivelmente_falso;
+        if (caso != null) {
+            if (caso) {
+                drawable = R.drawable.ic_positivo;
+                string = R.string.cheque_possivelmente_verdadeiro;
+            } else {
+                drawable = R.drawable.ic_negativo;
+                string = R.string.cheque_possivelmente_falso;
+            }
+
+            imageViewValidadeCheque.setBackgroundResource(drawable);
+            textView.setText(string);
+
+            linearLayout.setVisibility(View.VISIBLE);
         }
 
-        imageView.setBackgroundResource(drawable);
-        textView.setText(string);
 
         cmc7anterior = cmc7;
     }
@@ -100,8 +112,10 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
 
     @Override
     public void afterTextChanged(Editable editable) {
-        if (cmc7anterior != null)
-            if (!editable.toString().equals(cmc7anterior))
+        if (cmc7anterior != null) {
+            if (!editable.toString().equals(cmc7anterior)) {
                 linearLayout.setVisibility(View.GONE);
+            }
+        }
     }
 }

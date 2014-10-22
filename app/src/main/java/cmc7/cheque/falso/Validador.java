@@ -29,7 +29,7 @@ public class Validador {
         this.context = context;
     }
 
-    public boolean validarCMC7(final String campo) {
+    public Boolean validarCMC7(final String campo) {
         if (campo != null && !campo.equals("")) {
 
             //String teste = "341026200184356765450006083914";
@@ -61,7 +61,7 @@ public class Validador {
             }
         } else {
             Toast.makeText(context, "Preencha o campo de CMC7", Toast.LENGTH_SHORT).show();
-            return false;
+            return null;
         }
     }
 

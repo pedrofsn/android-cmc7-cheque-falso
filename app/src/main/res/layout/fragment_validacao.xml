@@ -8,18 +8,33 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MyActivity$PlaceholderFragment">
 
-    <EditText
-        android:id="@+id/editTextCmc7"
-        android:text="@string/insira_cmc7"
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextCmc7"
+            android:hint="@string/insira_cmc7"
+            android:paddingRight="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@android:drawable/ic_menu_camera" />
+    </FrameLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@android:string/ok"
         android:id="@+id/buttonOk"
-        android:layout_below="@+id/editTextCmc7"
+        android:layout_below="@+id/frameLayout"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -35,7 +50,7 @@
         android:layout_centerHorizontal="true">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageViewValidadeCheque"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_positivo" />
