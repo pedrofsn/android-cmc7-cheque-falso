@@ -3,6 +3,8 @@ package cmc7.cheque.falso;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by pedro.sousa on 21/10/2014.
  */
-public class FragmentValidacao extends Fragment implements View.OnClickListener {
+public class FragmentValidacao extends Fragment implements View.OnClickListener, TextWatcher {
 
     private EditText editTextCmc7;
     private Button buttonOk;
@@ -25,6 +26,7 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener 
     private TextView textView;
 
     private Validador validador;
+    private String cmc7anterior;
     private String cmc7;
 
     public FragmentValidacao() {
@@ -49,9 +51,8 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener 
     @Override
     public void onStart() {
         super.onStart();
-
-        validador = new Validador();
-
+        validador = new Validador(getActivity());
+        editTextCmc7.addTextChangedListener(this);
         buttonOk.setOnClickListener(this);
     }
 
@@ -59,29 +60,48 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonOk:
+                if (cmc7anterior == cmc7)
+                    linearLayout.setVisibility(View.GONE);
+
                 cmc7 = editTextCmc7.getText().toString();
-
-                if (cmc7 != null && !cmc7.equals("")) {
-                    if (validador.validarCMC7(cmc7)) {
-                        Toast.makeText(getActivity(), "Cheque verdadeiro", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), "Cheque possivelmente falso", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "Preencha o campo de CMC7", Toast.LENGTH_SHORT).show();
-                }
-
+                setResultadoValidacaoCheque(validador.validarCMC7(cmc7));
                 break;
         }
     }
 
     private void setResultadoValidacaoCheque(boolean caso) {
-        if(caso) {
+        linearLayout.setVisibility(View.VISIBLE);
+        int drawable;
+        int string;
 
+        if (caso) {
+            drawable = R.drawable.ic_positivo;
+            string = R.string.cheque_possivelmente_verdadeiro;
         } else {
-
+            drawable = R.drawable.ic_negativo;
+            string = R.string.cheque_possivelmente_falso;
         }
 
-        //imageView.setBackground(R.id.ic);
+        imageView.setBackgroundResource(drawable);
+        textView.setText(string);
+
+        cmc7anterior = cmc7;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        if (cmc7anterior != null)
+            if (!editable.toString().equals(cmc7anterior))
+                linearLayout.setVisibility(View.GONE);
     }
 }

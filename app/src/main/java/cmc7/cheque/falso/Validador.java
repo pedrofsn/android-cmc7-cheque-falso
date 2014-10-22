@@ -1,5 +1,8 @@
 package cmc7.cheque.falso;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,40 +23,46 @@ public class Validador {
      * ************************************
      */
 
-    public Validador() {
-        
+    private Context context;
+
+    public Validador(Context context) {
+        this.context = context;
     }
 
     public boolean validarCMC7(final String campo) {
+        if (campo != null && !campo.equals("")) {
 
-        //String teste = "341026200184356765450006083914";
-        String regexValida = "\\d{8}\\d{10}\\d{12}";
-        String regexInvalida = "[0]{8}[0]{10}[0]{12}";
+            //String teste = "341026200184356765450006083914";
+            String regexValida = "\\d{8}\\d{10}\\d{12}";
+            String regexInvalida = "[0]{8}[0]{10}[0]{12}";
 
-        Pattern invalido = Pattern.compile(regexInvalida);
-        Pattern valido = Pattern.compile(regexValida);
+            Pattern invalido = Pattern.compile(regexInvalida);
+            Pattern valido = Pattern.compile(regexValida);
 
-        Matcher mInvalido = invalido.matcher(campo);
-        Matcher mValido = valido.matcher(campo);
+            Matcher mInvalido = invalido.matcher(campo);
+            Matcher mValido = valido.matcher(campo);
 
-        if ((mInvalido.matches()) || (!mValido.matches())) {
-            return false;
-        }
+            if ((mInvalido.matches()) || (!mValido.matches())) {
+                return false;
+            }
 
-        String grupo1 = campo.substring(0, 7);
-        String grupo2 = campo.substring(8, 18);
-        String grupo3 = campo.substring(19, 29);
+            String grupo1 = campo.substring(0, 7);
+            String grupo2 = campo.substring(8, 18);
+            String grupo3 = campo.substring(19, 29);
 
-        boolean ret1 = (modulo10(grupo1).equals(campo.substring(18, 19)));
-        boolean ret2 = (modulo10(grupo2).equals(campo.substring(7, 8)));
-        boolean ret3 = (modulo10(grupo3).equals(campo.substring(29, 30)));
+            boolean ret1 = (modulo10(grupo1).equals(campo.substring(18, 19)));
+            boolean ret2 = (modulo10(grupo2).equals(campo.substring(7, 8)));
+            boolean ret3 = (modulo10(grupo3).equals(campo.substring(29, 30)));
 
-        if (ret1 && ret2 && ret3) {
-            return true;
+            if (ret1 && ret2 && ret3) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
+            Toast.makeText(context, "Preencha o campo de CMC7", Toast.LENGTH_SHORT).show();
             return false;
         }
-
     }
 
     /**
