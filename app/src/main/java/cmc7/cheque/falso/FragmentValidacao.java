@@ -1,5 +1,6 @@
 package cmc7.cheque.falso;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,11 +9,15 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 /**
  * Created by pedro.sousa on 21/10/2014.
@@ -22,16 +27,13 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
     private EditText editTextCmc7;
     private Button buttonOk;
     private LinearLayout linearLayout;
-    private ImageView imageView;
     private ImageView imageViewValidadeCheque;
     private TextView textView;
+    private AdView adView;
 
     private Validador validador;
     private String cmc7anterior;
     private String cmc7;
-
-    public FragmentValidacao() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,18 +47,20 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
         editTextCmc7 = (EditText) view.findViewById(R.id.editTextCmc7);
         buttonOk = (Button) view.findViewById(R.id.buttonOk);
         linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout);
-        imageView = (ImageView) view.findViewById(R.id.imageView);
         imageViewValidadeCheque = (ImageView) view.findViewById(R.id.imageViewValidadeCheque);
         textView = (TextView) view.findViewById(R.id.textView);
+        adView = (AdView) view.findViewById(R.id.adView);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        validador = new Validador(getActivity());
-        imageView.setOnClickListener(this);
+        validador = new Validador(getActivity(), editTextCmc7);
         editTextCmc7.addTextChangedListener(this);
         buttonOk.setOnClickListener(this);
+
+        adView.loadAd(new AdRequest.Builder()
+                .build());
     }
 
     @Override
@@ -68,11 +72,12 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
                 }
 
                 cmc7 = editTextCmc7.getText().toString();
+
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(editTextCmc7.getWindowToken(), 0);
+
                 setResultadoValidacaoCheque(validador.validarCMC7(cmc7));
-                break;
-
-            case R.id.imageView:
-
                 break;
         }
     }
@@ -116,6 +121,8 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
             if (!editable.toString().equals(cmc7anterior)) {
                 linearLayout.setVisibility(View.GONE);
             }
+
+            editTextCmc7.setError(null);
         }
     }
 }

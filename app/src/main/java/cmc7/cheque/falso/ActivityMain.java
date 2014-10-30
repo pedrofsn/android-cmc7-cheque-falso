@@ -3,7 +3,6 @@ package cmc7.cheque.falso;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-
 public class ActivityMain extends ActionBarActivity {
 
     @Override
@@ -17,6 +16,5 @@ public class ActivityMain extends ActionBarActivity {
                     .commit();
         }
     }
-
 
 }

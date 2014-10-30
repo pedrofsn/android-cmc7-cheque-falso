@@ -1,7 +1,7 @@
 package cmc7.cheque.falso;
 
 import android.content.Context;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,9 +24,11 @@ public class Validador {
      */
 
     private Context context;
+    private EditText editTextCmc7;
 
-    public Validador(Context context) {
+    public Validador(Context context, EditText editTextCmc7) {
         this.context = context;
+        this.editTextCmc7 = editTextCmc7;
     }
 
     public Boolean validarCMC7(final String campo) {
@@ -60,7 +62,7 @@ public class Validador {
                 return false;
             }
         } else {
-            Toast.makeText(context, "Preencha o campo de CMC7", Toast.LENGTH_SHORT).show();
+            editTextCmc7.setError(context.getString(R.string.erro_campo_nao_preenchido));
             return null;
         }
     }

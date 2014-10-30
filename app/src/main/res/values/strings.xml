@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">"CMC7 Cheque Falso "</string>
+    <string name="app_name">CMC7 Cheque Falso</string>
+
     <string name="insira_cmc7">Insira o CMC7</string>
+    <string name="erro_campo_nao_preenchido">Preencha o campo de CMC7</string>
+
     <string name="cheque_possivelmente_verdadeiro">Cheque possivelmente verdadeiro!</string>
     <string name="cheque_possivelmente_falso">Cheque possivelmente falsificado!</string>
 
