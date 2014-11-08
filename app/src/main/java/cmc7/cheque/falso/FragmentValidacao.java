@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 /**
@@ -29,7 +30,7 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
     private LinearLayout linearLayout;
     private ImageView imageViewValidadeCheque;
     private TextView textView;
-    private AdView adView;
+    private LinearLayout linearLayoutAd;
 
     private Validador validador;
     private String cmc7anterior;
@@ -49,7 +50,7 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
         linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout);
         imageViewValidadeCheque = (ImageView) view.findViewById(R.id.imageViewValidadeCheque);
         textView = (TextView) view.findViewById(R.id.textView);
-        adView = (AdView) view.findViewById(R.id.adView);
+        linearLayoutAd = (LinearLayout) view.findViewById(R.id.linearLayoutAd);
     }
 
     @Override
@@ -59,8 +60,17 @@ public class FragmentValidacao extends Fragment implements View.OnClickListener,
         editTextCmc7.addTextChangedListener(this);
         buttonOk.setOnClickListener(this);
 
+        addAndLoadAdViewBanner();
+    }
+
+    private void addAndLoadAdViewBanner() {
+        AdView adView = new AdView(getActivity());
+        adView.setAdUnitId(AdUnitId.AD_ID);
+        adView.setAdSize(AdSize.BANNER);
         adView.loadAd(new AdRequest.Builder()
                 .build());
+
+        linearLayoutAd.addView(adView);
     }
 
     @Override
