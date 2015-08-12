@@ -28,8 +28,8 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
     private LinearLayout linearLayoutAd;
 
     private Validador validador;
-    private String cmc7anterior;
-    private String cmc7;
+    private String cmc7anterior = "";
+    private String cmc7 = "";
 
     private InterstitialAd interstitial;
 
@@ -79,9 +79,10 @@ public class ActivityMain extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (interstitial.isLoaded())
+        if (interstitial.isLoaded()) {
             interstitial.show();
+        }
+        super.onBackPressed();
     }
 
     @Override
